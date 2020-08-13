@@ -94,6 +94,7 @@
      <Compile Include="Assets\Scripts\Other\Unity.IO.Compression\OutputBuffer.cs" />
      <Compile Include="Assets\Scripts\Other\Unity.IO.Compression\OutputWindow.cs" />
      <Compile Include="Assets\Scripts\Other\Unity.IO.Compression\SR.cs" />
+     <Compile Include="Assets\Scripts\Other\WorkspaceStartHandler.cs" />
      <Compile Include="Assets\Scripts\Other\zlib\Deflate.cs" />
      <Compile Include="Assets\Scripts\Other\zlib\DeflateStream.cs" />
      <Compile Include="Assets\Scripts\Other\zlib\InfTree.cs" />
@@ -104,9 +105,13 @@
      <Compile Include="Assets\Scripts\Other\zlib\ZlibConstants.cs" />
      <Compile Include="Assets\Scripts\Other\zlib\ZlibTree.cs" />
      <Compile Include="Assets\Scripts\States\GameStateManager.cs" />
+     <Compile Include="Assets\Shaders\LaserProcessor.cs" />
+     <None Include="Assets\Shaders\LasersRefer.hlsl" />
      <None Include="Assets\Packages\PolygonSciFiSpace\Shaders\SyntyStudios_Asteroid.shader" />
+     <None Include="Assets\Shaders\Lasers.hlsl" />
      <None Include="Assets\Packages\PolygonSciFiSpace\Shaders\POLYGON_Triplanar.shader" />
      <None Include="Assets\Packages\PolygonSciFiSpace\Shaders\SyntyStudios_Triplanar_ObjectSpace.shader" />
+     <None Include="Assets\Shaders\Lasers.shader" />
      <None Include="Assets\Packages\PolygonSciFiSpace\Shaders\SyntyStudios_Planet.shader" />
      <None Include="Assets\Packages\PolygonSciFiSpace\Shaders\SyntyStudios_Planet_Lines.shader" />
      <None Include="Assets\Packages\PolygonSciFiSpace\Shaders\POLYGON_SpaceShip_Rim.shader" />
