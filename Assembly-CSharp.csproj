@@ -2,6 +2,8 @@
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <LangVersion>latest</LangVersion>
+    <CscToolPath>D:\Unity\Editors\2019.3.7f1\Editor\Data\Tools\RoslynScripts</CscToolPath>
+    <CscToolExe>unity_csc.bat</CscToolExe>
   </PropertyGroup>
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -9,7 +11,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{549df7cb-bb94-b21f-ab68-3b73887551df}</ProjectGuid>
+    <ProjectGuid>{CBF79D54-94BB-1FB2-AB68-3B73887551DF}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Assembly-CSharp</AssemblyName>
@@ -44,6 +46,14 @@
     <ImplicitlyExpandNETStandardFacades>false</ImplicitlyExpandNETStandardFacades>
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="UnityEngine">
+      <HintPath>D:\Unity\Editors\2019.3.7f1\Editor\Data\Managed/UnityEngine/UnityEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor">
+      <HintPath>D:\Unity\Editors\2019.3.7f1\Editor\Data\Managed/UnityEditor.dll</HintPath>
+    </Reference>
+  </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Packages\Joystick Pack\Examples\JoystickPlayerExample.cs" />
      <Compile Include="Assets\Packages\Joystick Pack\Examples\JoystickSetterExample.cs" />
@@ -94,6 +104,7 @@
      <Compile Include="Assets\Scripts\Other\Unity.IO.Compression\OutputBuffer.cs" />
      <Compile Include="Assets\Scripts\Other\Unity.IO.Compression\OutputWindow.cs" />
      <Compile Include="Assets\Scripts\Other\Unity.IO.Compression\SR.cs" />
+     <Compile Include="Assets\Scripts\Other\WorkspaceStartHandler.cs" />
      <Compile Include="Assets\Scripts\Other\zlib\Deflate.cs" />
      <Compile Include="Assets\Scripts\Other\zlib\DeflateStream.cs" />
      <Compile Include="Assets\Scripts\Other\zlib\InfTree.cs" />
@@ -104,14 +115,45 @@
      <Compile Include="Assets\Scripts\Other\zlib\ZlibConstants.cs" />
      <Compile Include="Assets\Scripts\Other\zlib\ZlibTree.cs" />
      <Compile Include="Assets\Scripts\States\GameStateManager.cs" />
+     <Compile Include="Assets\Shaders\LaserProcessor.cs" />
+     <Compile Include="Assets\Shaders\LaserProcessorIndirect.cs" />
+     <None Include="Assets\Shaders\LasersRefer.hlsl" />
      <None Include="Assets\Packages\PolygonSciFiSpace\Shaders\SyntyStudios_Asteroid.shader" />
+     <None Include="Assets\Shaders\Lasers.hlsl" />
      <None Include="Assets\Packages\PolygonSciFiSpace\Shaders\POLYGON_Triplanar.shader" />
+     <None Include="Assets\Shaders\LasersIndirect.hlsl" />
+     <None Include="Assets\Shaders\LasersIndirect.shader" />
      <None Include="Assets\Packages\PolygonSciFiSpace\Shaders\SyntyStudios_Triplanar_ObjectSpace.shader" />
+     <None Include="Assets\Shaders\Lasers.shader" />
      <None Include="Assets\Packages\PolygonSciFiSpace\Shaders\SyntyStudios_Planet.shader" />
      <None Include="Assets\Packages\PolygonSciFiSpace\Shaders\SyntyStudios_Planet_Lines.shader" />
      <None Include="Assets\Packages\PolygonSciFiSpace\Shaders\POLYGON_SpaceShip_Rim.shader" />
- <Reference Include="UnityEngine">
- <HintPath>D:/Unity/Editors/2019.3.7f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
+ <Reference Include="Unity.Timeline.Editor">
+ <HintPath>D:/Unity/Expanse/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
+ </Reference>
+ <Reference Include="Unity.VSCode.Editor">
+ <HintPath>D:/Unity/Expanse/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
+ </Reference>
+ <Reference Include="Unity.TextMeshPro.Editor">
+ <HintPath>D:/Unity/Expanse/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.UI">
+ <HintPath>D:/Unity/Expanse/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
+ </Reference>
+ <Reference Include="Unity.Timeline">
+ <HintPath>D:/Unity/Expanse/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
+ </Reference>
+ <Reference Include="Unity.CollabProxy.Editor">
+ <HintPath>D:/Unity/Expanse/Library/ScriptAssemblies/Unity.CollabProxy.Editor.dll</HintPath>
+ </Reference>
+ <Reference Include="Unity.Rider.Editor">
+ <HintPath>D:/Unity/Expanse/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
+ </Reference>
+ <Reference Include="Unity.TextMeshPro">
+ <HintPath>D:/Unity/Expanse/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEditor.UI">
+ <HintPath>D:/Unity/Expanse/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.AIModule">
  <HintPath>D:/Unity/Editors/2019.3.7f1/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>
@@ -289,9 +331,6 @@
  </Reference>
  <Reference Include="UnityEngine.XRModule">
  <HintPath>D:/Unity/Editors/2019.3.7f1/Editor/Data/Managed/UnityEngine/UnityEngine.XRModule.dll</HintPath>
- </Reference>
- <Reference Include="UnityEditor">
- <HintPath>D:/Unity/Editors/2019.3.7f1/Editor/Data/Managed/UnityEditor.dll</HintPath>
  </Reference>
  <Reference Include="NetOptCS">
  <HintPath>D:/Unity/Expanse/Assets/Scripts/Other/NetOpt/Plugins/NetOptCS.dll</HintPath>
@@ -657,46 +696,8 @@
  <HintPath>D:/Unity/Editors/2019.3.7f1/Editor/Data/MonoBleedingEdge/lib/mono/unityscript/Boo.Lang.dll</HintPath>
  </Reference>
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="Unity.Timeline.Editor.csproj">
-      <Project>{a967754e-2977-4019-69f6-64bd41388b6e}</Project>
-      <Name>Unity.Timeline.Editor</Name>
-    </ProjectReference>
-    <ProjectReference Include="Unity.VSCode.Editor.csproj">
-      <Project>{cea0a13f-a041-9141-1867-6a277a5a2d20}</Project>
-      <Name>Unity.VSCode.Editor</Name>
-    </ProjectReference>
-    <ProjectReference Include="Unity.TextMeshPro.Editor.csproj">
-      <Project>{0647171d-2f4e-c807-e0d2-62d1d8a36c70}</Project>
-      <Name>Unity.TextMeshPro.Editor</Name>
-    </ProjectReference>
-    <ProjectReference Include="UnityEngine.UI.csproj">
-      <Project>{920f4a22-bed1-9eab-e89a-748525a319c7}</Project>
-      <Name>UnityEngine.UI</Name>
-    </ProjectReference>
-    <ProjectReference Include="Unity.Timeline.csproj">
-      <Project>{dfca31e0-9a38-ac6a-c91f-e4dcdaca2d86}</Project>
-      <Name>Unity.Timeline</Name>
-    </ProjectReference>
-    <ProjectReference Include="Unity.CollabProxy.Editor.csproj">
-      <Project>{7bb59955-e136-d33b-dc85-cbc21d9fe694}</Project>
-      <Name>Unity.CollabProxy.Editor</Name>
-    </ProjectReference>
-    <ProjectReference Include="Unity.Rider.Editor.csproj">
-      <Project>{241e46ae-42ea-69aa-b5a8-fe54d404291c}</Project>
-      <Name>Unity.Rider.Editor</Name>
-    </ProjectReference>
-    <ProjectReference Include="Unity.TextMeshPro.csproj">
-      <Project>{d2778d2b-a5af-6ac6-64ad-cb9de1f1c1f3}</Project>
-      <Name>Unity.TextMeshPro</Name>
-    </ProjectReference>
-    <ProjectReference Include="UnityEditor.UI.csproj">
-      <Project>{23639a75-c5fc-5607-346a-f7f6f5a54881}</Project>
-      <Name>UnityEditor.UI</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
   </Target>
