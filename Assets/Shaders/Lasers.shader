@@ -1,4 +1,4 @@
-Shader "Unlit/Lasers"
+Shader "Lasers/LasersDirect"
 {
     Properties
     {

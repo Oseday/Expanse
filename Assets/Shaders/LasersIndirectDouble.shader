@@ -1,11 +1,24 @@
 // Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
 
-Shader "Lasers/Indirect"
+Shader "Lasers/IndirectDouble"
 {
 	Properties
 	{
+		//textur ("Texture", 2D) = "white" {}
+		//startTime ("startTime", float) = 0
+		//random ("random", float) = 0
+		//width ("width", float) = 0.05
+		//start ("start", Vector) = (0.0,0.0,0.0,0.0)
+		//end ("end", Vector) = (0.0,0.0,0.0,0.0)		
+		//[HideInInspector][Enum(UnityEngine.Rendering.BlendMode)] _SrcBlend ("Source Blend", Float) = 6
+		//[HideInInspector][Enum(UnityEngine.Rendering.BlendMode)] _DstBlend ("Destination Blend", Float) = 2
+		//[HideInInspector][Enum(UnityEngine.Rendering.CullMode)] _Cull ("Cull", Float) = 2
+		//[HideInInspector][Enum(Off, 0, On, 1)] _ZWrite ("Z Write", Float) = 0
 		_Color ("Color", Color) = (1.0,0.0,0.0,0.0)
+		_ColorB ("Color", Color) = (1.0,0.0,0.0,0.0)
 		_Sharpness ("Sharpness", Range(1,100)) = 45
+		_Speed ("Speed", Range(0,100)) = 10
+		_Frequency ("Frequency", Range(0,100)) = 10
 	}
 	SubShader
 	{
@@ -17,7 +30,7 @@ Shader "Lasers/Indirect"
 			//Blend [_SrcBlend] [_DstBlend]
 			//ZWrite [_ZWrite]
 
-			Blend SrcAlpha One 
+			Blend SrcAlpha OneMinusSrcAlpha 
 			ZWrite Off
 
 
@@ -136,23 +149,42 @@ VertexData vertex (VertexInput v)
 
 
 float4 _Color;
+float4 _ColorB;
 float _Sharpness;
+float _Speed;
+float _Frequency;
 
 float4 fragment (VertexData i) : SV_Target
 {
+	float4 cola;
 	float4 colb;
 
 	float depth = tex2D(_CameraDepthTexture, i.projPos.xy/i.projPos.w);
 	float depthdiff = 1-clamp((1.0/depth-1.0/i.vertex.z),0,1)*1.0;
 
+	float tick = _Time.w*_Speed;
 	
-	float tb = pow(-4.0*(i.color.w*i.color.w)+1.0,_Sharpness);
+	//float t = pow(-4.0*(i.color.w*i.color.w)+1.0,_Sharpness);
 
-	float alpha = clamp(tb-pow(depthdiff,4.0),0,1); //smoothing
+	float ta = 0.25*cos(_Frequency*i.color.z + tick)+0.5 - _Sharpness*pow(i.color.x - 0.25*sin(_Frequency*i.color.z + tick)-0.5, 2);
+	ta = clamp(ta,0,1);
+	
+	float tb = 0.25*cos(_Frequency*i.color.z+3.145928 + tick)+0.5 - _Sharpness*pow(i.color.x - 0.25*sin(_Frequency*i.color.z+3.145928 + tick)-0.5, 2);
+	tb = clamp(tb,0,1);
 
-	colb = float4(tb*(1-_Color.x)+_Color.x, tb*(1-_Color.y)+_Color.y, tb*(1-_Color.z)+_Color.z, _Color.w*alpha);
+	float alphaa = clamp(ta-pow(depthdiff,4.0),0,1); //smoothing
 
-	return colb;
+	//cola = float4(ta*(1-_Color.x)+_Color.x, ta*(1-_Color.y)+_Color.y, ta*(1-_Color.z)+_Color.z, _Color.w*alphaa);
+	cola = float4(ta*_Color.x, ta*_Color.y, ta*_Color.z, ta*_Color.w*alphaa);
+	
+	float alphab = clamp(tb-pow(depthdiff,4.0),0,1); //smoothing
+
+	//colb = float4(tb*(1-_ColorB.x)+_ColorB.x, tb*(1-_ColorB.y)+_ColorB.y, tb*(1-_ColorB.z)+_ColorB.z, _ColorB.w*alphab);
+	colb = float4(tb*_ColorB.x, tb*_ColorB.y, tb*_ColorB.z, tb*_ColorB.w*alphab);
+
+
+	//col = float4(1,t,t,alpha);
+	return cola*2 + 2*colb;
 }
 
 
