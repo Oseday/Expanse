@@ -139,7 +139,7 @@ struct Laser {
 		CreateArgsBuffer();
 		//CreateLasersBuffer();
 
-		for (int i = 0; i < 5; i++)
+		for (int i = 0; i < 10; i++)
 		{
 			AddLaser(UnityEngine.Random.insideUnitSphere*4f, UnityEngine.Random.insideUnitSphere*4f, null);
 		}
