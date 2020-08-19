@@ -54,6 +54,7 @@
      <Compile Include="Assets\Packages\Joystick Pack\Scripts\Joysticks\VariableJoystick.cs" />
      <Compile Include="Assets\ScreenTextReporter.cs" />
      <Compile Include="Assets\Scripts\Controllers\CameraAttachment.cs" />
+     <Compile Include="Assets\Scripts\Controllers\Ship.cs" />
      <Compile Include="Assets\Scripts\Controllers\ShipController.cs" />
      <Compile Include="Assets\Scripts\Networking\Scripts\CameraController.cs" />
      <Compile Include="Assets\Scripts\Networking\Scripts\Client.cs" />
@@ -62,7 +63,7 @@
      <Compile Include="Assets\Scripts\Networking\Scripts\GameNetworkManager.cs" />
      <Compile Include="Assets\Scripts\Networking\Scripts\Packet.cs" />
      <Compile Include="Assets\Scripts\Networking\Scripts\PlayerManager.cs" />
-     <Compile Include="Assets\Scripts\Networking\Scripts\RigidbodyNetworkController.cs" />
+     <Compile Include="Assets\Scripts\Networking\Scripts\ShipNetworkController.cs" />
      <Compile Include="Assets\Scripts\Networking\Scripts\ThreadManager.cs" />
      <Compile Include="Assets\Scripts\Networking\Scripts\UIManager.cs" />
      <Compile Include="Assets\Scripts\Other\DontDestroy.cs" />
