@@ -3,34 +3,8 @@ using System.Collections.Generic;
 using System.Net;
 using UnityEngine;
 
-	public enum ServerPackets
-	{
-		welcome = 1,
-		spawnPlayer = 2,
-		PhysicsTick = 3,
-		despawnPlayer = 4,
-		SpawnShip = 5,
-		DespawnShip = 6,
-	}
-
-	/// <summary>Sent from client to server.</summary>
-	public enum ClientPackets
-	{
-		welcomeReceived = 1,
-		ShipPhysicsUpdate = 2,
-	}
-
 public class ClientHandle : MonoBehaviour
 {
-	public static Dictionary<int, Client.PacketHandler> InitPacketDict(){
-		return new Dictionary<int, Client.PacketHandler>
-			{
-				{ (int)ServerPackets.welcome, ClientHandle.Welcome },
-				{ (int)ServerPackets.spawnPlayer, ClientHandle.SpawnPlayer },
-				{ (int)ServerPackets.PhysicsTick, ClientHandle.PhysicsTick },
-				{ (int)ServerPackets.despawnPlayer, ClientHandle.DespawnPlayer }
-			};
-	}
 
 	public static void Welcome(Packet _packet)
 	{
@@ -100,27 +74,53 @@ public class ClientHandle : MonoBehaviour
 
 		float dt = 1f/GameNetworkManager.instance.PhysicsServerTickTime;
 
-		Dictionary<int, bool> ShipsDict = new Dictionary<int,bool>(length);
+		Dictionary<int, Ship> ShipsDict = new Dictionary<int,Ship>(length);
 		
 		for (int i = 0; i < length; i++)
 		{
 			int ship_id = _packet.ReadInt(); //ship type could be inferred from ship_id
+			int owner_id = _packet.ReadInt();
 			Vector3 pos = _packet.ReadVector3();
 			Quaternion rot = _packet.ReadQuaternion();
 			Vector3 vel = _packet.ReadVector3();
 			Vector3 rotvel = _packet.ReadVector3();
+			
+			//Debug.Log($"packet id:{ship_id}, oid.{owner_id}");
 
-			Ship ship = Ship.TryGetOrCreate(ship_id, "DefaultShip", pos, rot, vel, rotvel);
+			if (owner_id!=Client.instance.myId){
+				Ship ship; //Ship.TryGetOrCreate(ship_id, "DefaultShip", pos, rot, vel, rotvel);
+				if(Ship.Ships.TryGetValue(ship_id, out ship)){
+					ship.networkController.NetUpdate(pos,vel,rot,rotvel,ticker);
 
-			ship.networkController.NetUpdate(pos,vel,rot,rotvel,ticker);
+					ShipsDict[ship_id]=ship;
+				}
+			} else {
+				Ship ship;
+				if (Ship.Ships.TryGetValue(ship_id, out ship)){
+					ShipsDict[ship_id]=ship;
+				}
+			}
 
-			ShipsDict[ship_id]=true;
 		}
+
+		List<int> toRemove = new List<int>();
 
 		foreach (var ship_id in Ship.Ships.Keys)
 		{
-			if (ShipsDict[ship_id]==false){
-				Ship.Ships[ship_id].Remove();
+			//Debug.Log(ship_id);
+			if (!ShipsDict.ContainsKey(ship_id) || ShipsDict[ship_id]==null){//(ShipsDict[ship_id]==false){
+				//Ship.Ships[ship_id].Remove();
+				toRemove.Add(ship_id);
+			}
+		}
+
+		foreach (var ship_id in toRemove.ToArray())
+		{
+			if (ship_id!=0){
+				Ship ship;
+				if (Ship.Ships.TryGetValue(ship_id, out ship) && ship!=null){
+					ship.Remove();
+				}
 			}
 		}
 	}

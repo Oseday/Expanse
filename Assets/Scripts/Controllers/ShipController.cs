@@ -22,6 +22,7 @@ public class ShipController : MonoBehaviour
 	private Vector2 lasttouchpos;
 	private int currentTouchIndex = -1;
 
+	public List<WeaponsSystem> WeaponsSystemPrimary;
 
 	// Start is called before the first frame update
 	void Start()
@@ -38,6 +39,13 @@ public class ShipController : MonoBehaviour
 			}
 
 		//GameObject.FindObjectOfType<Text>().text = $"{SystemInfo.deviceType}";
+
+	}
+
+	void FireLeft(){
+
+	}
+	void FireRight(){
 
 	}
 
@@ -92,6 +100,14 @@ public class ShipController : MonoBehaviour
 				currentTouchIndex=-1;
 			}
 		}
+
+		if (Controlling){
+			if (Input.GetMouseButton(0)){
+				FireLeft();
+			}else if(Input.GetMouseButton(0)){
+				FireRight();
+			}
+		}
 		
 
 		if (Input.GetKeyDown(KeyCode.Escape)){
@@ -116,8 +132,6 @@ public class ShipController : MonoBehaviour
 			float transZ = Input.GetAxis("Vertical") + Input.GetAxis("JoystickLeftY");
 			float transX = Input.GetAxis("Horizontal") + Input.GetAxis("JoystickLeftX");
 			float transY = Input.GetAxis("ShipMoveVertical");
-
-			Debug.Log(transY);
 
 			transZ+=joystick.Direction.y;
 			transX+=joystick.Direction.x;

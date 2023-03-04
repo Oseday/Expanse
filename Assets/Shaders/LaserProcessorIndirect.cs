@@ -11,20 +11,21 @@ public class LaserProcessorIndirect : MonoBehaviour
 	private static LaserProcessorIndirect instance;
 
 	private static int sflt = sizeof(float);
-struct Laser {
-	public Vector3 start;
-	public Vector3 end;
-	public float width;
-	public float random;
-	public float startTime;
-	public Laser(Vector3 _start, Vector3 _end, float _width){
-		start = _start;
-		end = _end;
-		width = _width;
-		random = UnityEngine.Random.value;
-		startTime = Time.time;
-	}
-};
+
+	struct Laser {
+		public Vector3 start;
+		public Vector3 end;
+		public float width;
+		public float random;
+		public float startTime;
+		public Laser(Vector3 _start, Vector3 _end, float _width){
+			start = _start;
+			end = _end;
+			width = _width;
+			random = UnityEngine.Random.value;
+			startTime = Time.time;
+		}
+	};
 
 	private int GetLaserSize(){return sflt*3*2 + sflt*3;}
 
@@ -199,6 +200,8 @@ struct Laser {
 //using UnityEngine;
 //using UnityEditor;
 
+#if UNITY_EDITOR
+
 [CustomEditor(typeof(LaserProcessorIndirect))]
 public class LaserProcessorEditor : Editor {
 	public override void OnInspectorGUI() {
@@ -212,3 +215,5 @@ public class LaserProcessorEditor : Editor {
 		}
 	}
 }
+
+#endif

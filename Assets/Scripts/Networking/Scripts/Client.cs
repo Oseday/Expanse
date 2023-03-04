@@ -151,6 +151,7 @@ public class Client : MonoBehaviour
                     using (Packet _packet = new Packet(_packetBytes))
                     {
                         int _packetId = _packet.ReadInt();
+                        Debug.Log(_packetId);
                         packetHandlers[_packetId](_packet);
                     }
                 });
@@ -282,7 +283,7 @@ public class Client : MonoBehaviour
             { (int)ServerPackets.spawnPlayer, ClientHandle.SpawnPlayer },
         };*/
 
-        packetHandlers = ClientHandle.InitPacketDict();
+        packetHandlers = Constants.InitPacketDict();
 
         Debug.Log("Initialized packets.");
     }

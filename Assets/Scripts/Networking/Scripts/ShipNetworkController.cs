@@ -16,7 +16,7 @@ public class ShipNetworkController : MonoBehaviour
 		CatmullRomCntsExtrapolated,
 	}
 
-	private Rigidbody body;
+	public Rigidbody body;
 
 
 	public bool Local;
@@ -56,6 +56,7 @@ public class ShipNetworkController : MonoBehaviour
 
 	public void NetUpdate(Vector3 pos, Vector3 vel, Quaternion rot, Vector3 rotvel, float ticker){
 		//Debug.Log("netupdate");
+		//Debug.Log($"vel:{vel.magnitude}");
 
 		if (InterpolationMethod==NetworkInterpolationMethod.Linear){
 			StartPos = gameObject.transform.position; 
@@ -102,8 +103,7 @@ public class ShipNetworkController : MonoBehaviour
 
 	private Vector3 lastPos;
 
-	private void Update()
-	{
+	private void Update() {
 		if (Local){
 			//ClientHandle.ShipNetworkUpdate(gameObject.transform, body);
 			//Ship.OwnedShipSendPhysicsInfo();
@@ -133,9 +133,9 @@ public class ShipNetworkController : MonoBehaviour
 
 			gameObject.transform.position = nPos;
 
-			gameObject.transform.rotation = Quaternion.Lerp(StartRot,EndRot,Mathf.Min(t,1));//StartRot * Quaternion.AngleAxis(RotVel.magnitude*Mathf.Min(t,1), RotVel.normalized);
-
-			//implement rotation
+			if ((StartRot.eulerAngles-EndRot.eulerAngles).magnitude>0.0001){
+				gameObject.transform.rotation = Quaternion.Lerp(StartRot,EndRot,Mathf.Min(t,1));//StartRot * Quaternion.AngleAxis(RotVel.magnitude*Mathf.Min(t,1), RotVel.normalized);
+			}
 
 		}
 	}
